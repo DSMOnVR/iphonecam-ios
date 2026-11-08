@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @AppStorage("serverURL") private var serverURL: String = ""
+    @StateObject private var store = ServerStore()
     @State private var activeURL: URL?
     @State private var showSetup = false
 
@@ -24,9 +25,9 @@ struct ContentView: View {
                 }
                 .padding(12)
             } else {
-                SetupView(serverURL: $serverURL) { url in
+                SetupView(serverURL: $serverURL, store: store, onConnect: { url in
                     activeURL = url
-                }
+                })
             }
         }
         .onAppear {
@@ -35,10 +36,10 @@ struct ContentView: View {
             }
         }
         .sheet(isPresented: $showSetup) {
-            SetupView(serverURL: $serverURL) { url in
+            SetupView(serverURL: $serverURL, store: store, onConnect: { url in
                 activeURL = url
                 showSetup = false
-            }
+            })
         }
     }
 
