@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct ContentView: View {
     @AppStorage("serverURL") private var serverURL: String = ""
@@ -31,6 +32,7 @@ struct ContentView: View {
             }
         }
         .onAppear {
+            UIApplication.shared.isIdleTimerDisabled = true
             if activeURL == nil, let url = Self.makeURL(serverURL) {
                 activeURL = url
             }
